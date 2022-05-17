@@ -12,9 +12,6 @@ class DatasetTrain(torch.utils.data.Dataset):
         self.train_img_dir = train_data_path + "/leftImg8bit/train/"
         self.label_dir = train_meta_path + "/label_imgs/"
 
-        self.img_h = 1024
-        self.img_w = 1024
-
         self.new_img_h = 512
         self.new_img_w = 512
 
@@ -38,78 +35,23 @@ class DatasetTrain(torch.utils.data.Dataset):
         example = self.examples[index]
 
         img_path = example["img_path"]
-        img = cv2.imread(img_path, -1) # (shape: (1024, 2048, 3))
-        # resize img without interpolation (want the image to still match
-        # label_img, which we resize below):
-        img = cv2.resize(img, (self.new_img_w, self.new_img_h),
-                         interpolation=cv2.INTER_NEAREST) # (shape: (512, 1024, 3))
+        img = cv2.imread(img_path, -1)
 
+        img = cv2.resize(img, (self.new_img_w, self.new_img_h),
+                         interpolation=cv2.INTER_NEAREST)
 
         label_img_path = example["label_img_path"]
-        label_img = cv2.imread(label_img_path, -1) # (shape: (1024, 2048))
+        label_img = cv2.imread(label_img_path, -1)
         # resize label_img without interpolation (want the resulting image to
         # still only contain pixel values corresponding to an object class):
         label_img = cv2.resize(label_img, (self.new_img_w, self.new_img_h),
-                               interpolation=cv2.INTER_NEAREST) # (shape: (512, 1024))
+                               interpolation=cv2.INTER_NEAREST)
 
         # flip the img and the label with 0.5 probability:
         flip = np.random.randint(low=0, high=2)
         if flip == 1:
             img = cv2.flip(img, 1)
             label_img = cv2.flip(label_img, 1)
-
-        ########################################################################
-        # randomly scale the img and the label:
-        ########################################################################
-        # scale = np.random.uniform(low=0.7, high=2.0)
-        # new_img_h = int(scale*self.new_img_h)
-        # new_img_w = int(scale*self.new_img_w)
-        #
-        # # resize img without interpolation (want the image to still match
-        # # label_img, which we resize below):
-        # img = cv2.resize(img, (new_img_w, new_img_h),
-        #                  interpolation=cv2.INTER_NEAREST) # (shape: (new_img_h, new_img_w, 3))
-        #
-        # # resize label_img without interpolation (want the resulting image to
-        # # still only contain pixel values corresponding to an object class):
-        # label_img = cv2.resize(label_img, (new_img_w, new_img_h),
-        #                        interpolation=cv2.INTER_NEAREST) # (shape: (new_img_h, new_img_w))
-        ########################################################################
-
-        # # # # # # # # debug visualization START
-        # print (scale)
-        # print (new_img_h)
-        # print (new_img_w)
-        #
-        # cv2.imshow("test", img)
-        # cv2.waitKey(0)
-        #
-        # cv2.imshow("test", label_img)
-        # cv2.waitKey(0)
-        # # # # # # # # debug visualization END
-
-        ########################################################################
-        # select a 256x256 random crop from the img and label:
-        ########################################################################
-        # start_x = np.random.randint(low=0, high=(new_img_w - 256))
-        # end_x = start_x + 256
-        # start_y = np.random.randint(low=0, high=(new_img_h - 256))
-        # end_y = start_y + 256
-        #
-        # img = img[start_y:end_y, start_x:end_x] # (shape: (256, 256, 3))
-        # label_img = label_img[start_y:end_y, start_x:end_x] # (shape: (256, 256))
-        ########################################################################
-
-        # # # # # # # # debug visualization START
-        # print (img.shape)
-        # print (label_img.shape)
-        #
-        # cv2.imshow("test", img)
-        # cv2.waitKey(0)
-        #
-        # cv2.imshow("test", label_img)
-        # cv2.waitKey(0)
-        # # # # # # # # debug visualization END
 
         # normalize the img (with the mean and std for the pretrained ResNet):
         img = img/255.0
