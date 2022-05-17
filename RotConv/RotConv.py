@@ -136,7 +136,6 @@ class RotateCCDeformConv2D(nn.Module):
 
         # fix the center of deformable convolution
         deform_offset[:, 8:10, ...] = 0
-        # print(mask.shape)
         deform_mask[:, 4, ...] = 0
         deform_mask = deform_mask.sigmoid()
 
@@ -151,6 +150,8 @@ class RotateCCDeformConv2D(nn.Module):
         batch_size, _, ny_out, nx_out = y.size()
         y = y.view(batch_size, self.out_channels, self.output_stabilizer_size, ny_out, nx_out)
         y = self.act(y)
+
+        # Weighted bitwise summation
         y = y * mask
         y = y.sum(dim=2)
 
@@ -278,8 +279,9 @@ class Rotate_8_CCDeformConv2D_V1(nn.Module):
 
         batch_size, _, ny_out, nx_out = y.size()
         y = y.view(batch_size, self.out_channels, self.output_stabilizer_size, ny_out, nx_out)
-
         y = self.act(y)
+
+        # Weighted bitwise summation
         y = y * mask
         y = y.sum(dim=2)
 
@@ -395,6 +397,8 @@ class Rotate_2_CCDeformConv2D(nn.Module):
         batch_size, _, ny_out, nx_out = y.size()
         y = y.view(batch_size, self.out_channels, self.output_stabilizer_size, ny_out, nx_out)
         y = self.act(y)
+
+        # Weighted bitwise summation
         y = y * mask
         y = y.sum(dim=2)
 
