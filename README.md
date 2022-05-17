@@ -4,7 +4,8 @@ This is a Pytorch implemention of Rotational Convolution on UNet（https://githu
 The dataset includes 10k images from THEODORE("Learning from THEODORE: A Synthetic Omnidirectional Top-View Indoor
 Dataset for Deep Transfer Learning"). 
 
-Our dataset can be downloaded at: https://drive.google.com/file/d/1p-L8BnWZPqGNSfFxfSW91NLBZijD2Czx/view?usp=sharing
+Our dataset can be downloaded at: https://drive.google.com/file/d/1p-L8BnWZPqGNSfFxfSW91NLBZijD2Czx/view?usp=sharing (Google Drive)
+https://pan.baidu.com/s/1P5fPvH2OOayFg9bUCKWpbQ?pwd=nye3 (Baidu Drive)
 
 ![image](https://user-images.githubusercontent.com/56708520/168720416-b4fa4783-e2d6-4b73-b7d4-5e561f794694.png)
 
