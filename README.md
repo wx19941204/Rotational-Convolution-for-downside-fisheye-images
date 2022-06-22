@@ -15,7 +15,7 @@ Ruquire: Pytorch >= 1.7, Groupy(https://github.com/tscohen/GrouPy)
 
 ```
 Train:
-1.Download dataset and copy it into "./data"
+1.Download dataset into "./data"
 2.covert label: run "convert_label_color2id.py"
 3.train: run "train_unet.py"
 ```
