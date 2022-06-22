@@ -3,7 +3,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from RotConv.RotConv import RotateCCDeformConv2D, Rotate_2_CCDeformConv2D, Rotate_8_CCDeformConv2D_V1  # RC4,RC2,RC8
+from RotConv.RotConv import RotateDeformConv2D, Rotate_2_DeformConv2D, Rotate_8_DeformConv2D_V1  # RC4,RC2,RC8
 
 class DoubleConv(nn.Module):
     """(convolution => [BN] => ReLU) * 2"""
@@ -33,13 +33,13 @@ class DoubleRotDefConv(nn.Module):
         if not mid_channels:
             mid_channels = out_channels
         self.double_conv = nn.Sequential(
-            # RC4: RotateCCDeformConv2D
-            # RC2: Rotate_2_CCDeformConv2D
-            # RC8: Rotate_8_CCDeformConv2D
-            RotateCCDeformConv2D(in_channels, mid_channels, kernel_size=3, padding=1), # RC
+            # RC4: RotateDeformConv2D
+            # RC2: Rotate_2_DeformConv2D
+            # RC8: Rotate_8_DeformConv2D
+            RotateDeformConv2D(in_channels, mid_channels, kernel_size=3, padding=1), # RC
             nn.BatchNorm2d(mid_channels),
             nn.ReLU(inplace=True),
-            RotateCCDeformConv2D(mid_channels, out_channels, kernel_size=3, padding=1),  # RC
+            RotateDeformConv2D(mid_channels, out_channels, kernel_size=3, padding=1),  # RC
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True)
         )
