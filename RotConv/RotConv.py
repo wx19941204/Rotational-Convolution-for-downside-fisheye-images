@@ -41,12 +41,11 @@ def trans_filter_2(w):
     return tw
 
 
-class RotateCCDeformConv2D(nn.Module):
+class RotateDeformConv2D(nn.Module):
     # Rotational Convolution based on 4 states with deformable convolution v2
-    # Here the center of deformable convolution is fixed.
     def __init__(self, in_channels, out_channels, kernel_size, stride=1,
                  padding=0, bias=False, input_stabilizer_size=1, output_stabilizer_size=4):
-        super(RotateCCDeformConv2D, self).__init__()
+        super(RotateDeformConv2D, self).__init__()
         assert (input_stabilizer_size, output_stabilizer_size) in make_indices_functions.keys()
         self.ksize = kernel_size
 
@@ -133,10 +132,6 @@ class RotateCCDeformConv2D(nn.Module):
         # deformable conv
         deform_offset = self.offset_conv(input)
         deform_mask = self.mask_conv(input)
-
-        # fix the center of deformable convolution
-        deform_offset[:, 8:10, ...] = 0
-        deform_mask[:, 4, ...] = 0
         deform_mask = deform_mask.sigmoid()
 
         y = torchvision.ops.deform_conv2d(input,
@@ -162,12 +157,11 @@ class RotateCCDeformConv2D(nn.Module):
         return y
 
 
-class Rotate_8_CCDeformConv2D_V1(nn.Module):
+class Rotate_8_DeformConv2D_V1(nn.Module):
     # # Rotational Convolution based on 8 states with deformable convolution v2
-    #     # Here the center of deformable convolution is fixed.
     def __init__(self, in_channels, out_channels, kernel_size, stride=1,
                  padding=0, bias=False, input_stabilizer_size=1, output_stabilizer_size=8):
-        super(Rotate_8_CCDeformConv2D_V1, self).__init__()
+        super(Rotate_8_DeformConv2D_V1, self).__init__()
         assert (input_stabilizer_size, output_stabilizer_size) in make_indices_functions.keys()
         self.ksize = kernel_size
 
@@ -263,10 +257,6 @@ class Rotate_8_CCDeformConv2D_V1(nn.Module):
         # deformable conv
         deform_offset = self.offset_conv(input)
         deform_mask = self.mask_conv(input)
-
-        # fix the center of deformable convolution
-        deform_offset[:, 8:10, ...] = 0
-        deform_mask[:, 4, ...] = 0
         deform_mask = deform_mask.sigmoid()
 
         y = torchvision.ops.deform_conv2d(input,
@@ -292,12 +282,11 @@ class Rotate_8_CCDeformConv2D_V1(nn.Module):
         return y
 
 
-class Rotate_2_CCDeformConv2D(nn.Module):
+class Rotate_2_DeformConv2D(nn.Module):
     # # RC2:Rotational Convolution based on 2 states with deformable convolution v2
-    #     # Here the center of deformable convolution is fixed.
     def __init__(self, in_channels, out_channels, kernel_size, stride=1,
                  padding=0, bias=False, input_stabilizer_size=1, output_stabilizer_size=2):
-        super(Rotate_2_CCDeformConv2D, self).__init__()
+        super(Rotate_2_DeformConv2D, self).__init__()
         self.ksize = kernel_size
 
         kernel_size = _pair(kernel_size)
@@ -381,10 +370,6 @@ class Rotate_2_CCDeformConv2D(nn.Module):
         # deformable conv
         deform_offset = self.offset_conv(input)
         deform_mask = self.mask_conv(input)
-
-        # fix the center of deformable convolution
-        deform_offset[:, 8:10, ...] = 0
-        deform_mask[:, 4, ...] = 0
         deform_mask = deform_mask.sigmoid()
 
         y = torchvision.ops.deform_conv2d(input,
