@@ -9,7 +9,7 @@ https://pan.baidu.com/s/1P5fPvH2OOayFg9bUCKWpbQ?pwd=nye3 (Baidu Drive)
 
 ![image](https://user-images.githubusercontent.com/56708520/168720416-b4fa4783-e2d6-4b73-b7d4-5e561f794694.png)
 
-Ruquire: Pytorch >= 1.7, Groupy(https://github.com/tscohen/GrouPy)
+Ruquire: Pytorch >= 1.9, Groupy(https://github.com/tscohen/GrouPy)
 
 
 
